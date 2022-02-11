@@ -1,5 +1,8 @@
-package ru.netology.domain;
+package ru.netology.Manager;
 
+import ru.netology.domain.Book;
+import ru.netology.domain.Product;
+import ru.netology.domain.Smartphone;
 import ru.netology.repository.ProductRepository;
 
 public class ProductManager {
@@ -15,7 +18,7 @@ public class ProductManager {
 
     public Product[] searchBy(String text) {
         Product[] result = new Product[0];
-        for (Product product: repository.findAll()) {
+        for (Product product : repository.findAll()) {
             if (matches(product, text)) {
                 Product[] tmp = new Product[result.length + 1];
                 System.arraycopy(result, 0, tmp, 0, result.length);
@@ -32,33 +35,15 @@ public class ProductManager {
             if (book.getAuthor().contains(search)) { // проверим есть ли поисковое слово в данных об авторе
                 return true;
             }
-            if (book.getTitle().contains(search)) {
-                return true;
-            }
-            return false;
+            return book.getTitle().contains(search);
         }
         if (product instanceof Smartphone) { // если в параметре product лежит объект класса Book
             Smartphone smartphone = (Smartphone) product; // положем его в переменную типа Book чтобы пользоваться методами класса Book
             if (smartphone.getManufacturer().contains(search)) { // проверим есть ли поисковое слово в данных об авторе
                 return true;
             }
-            if (smartphone.getTitle().contains(search)) {
-                return true;
-            }
-            return false;
-        }
-        if (product instanceof TShirt) { // если в параметре product лежит объект класса Book
-            TShirt tShirt = (TShirt) product; // положем его в переменную типа Book чтобы пользоваться методами класса Book
-            if (tShirt.getColor().contains(search)) { // проверим есть ли поисковое слово в данных об авторе
-                return true;
-            }
-            if (tShirt.getSize().contains(search)) {
-                return true;
-            }
-            return false;
+            return smartphone.getTitle().contains(search);
         }
         return false;
     }
-
-
 }
